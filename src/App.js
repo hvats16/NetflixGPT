@@ -1,7 +1,8 @@
 import React from "react";
+import Body from "./components/Body";
 
 const App = () => {
-  return <div className="text-3xl font-bold text-red-600">Hello from the App</div>;
+  return <Body />;
 };
 
 export default App;
