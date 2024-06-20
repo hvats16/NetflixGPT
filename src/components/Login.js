@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/Validate";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -15,13 +17,42 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    //Vaidate the form data
-    const errors = checkValidData(
-      name.current.value,
-      email.current.value,
-      password.current.value
-    );
+
+    const nameValue = name.current ? name?.current?.value : ""; // Check if name.current exists
+    const emailValue = email.current ? email?.current?.value : "";
+    const passwordValue = password.current ? password?.current?.value : "";
+
+    // Validate the form data
+    const errors = isSignInForm
+      ? checkValidData(emailValue, passwordValue)
+      : checkValidData(emailValue, passwordValue, nameValue);
     setErrorMessage(errors);
+    if (errors) return;
+
+    if (!isSignInForm) {
+      // Sign up Logic
+      createUserWithEmailAndPassword(auth, emailValue, passwordValue)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          setIsSignInForm(!isSignInForm);
+          // Make email and password to null
+          if (email.current) email.current.value = "";
+          if (password.current) password.current.value = "";
+          if (name.current) name.current.value = "";
+          console.log(user);
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
+          //...
+        });
+    } else {
+      // Sign in Logic
+    }
   };
 
   return (
