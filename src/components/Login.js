@@ -1,10 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/Validate";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../utils/userSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isSignInForm, setIsSignInForm] = useState(true);
   const email = useRef(null);
   const password = useRef(null);
@@ -18,7 +28,7 @@ const Login = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const nameValue = name.current ? name?.current?.value : ""; // Check if name.current exists
+    const nameValue = name.current ? name?.current?.value : "";
     const emailValue = email.current ? email?.current?.value : "";
     const passwordValue = password.current ? password?.current?.value : "";
 
@@ -35,12 +45,33 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          setIsSignInForm(!isSignInForm);
-          // Make email and password to null
+          console.log(user);
+          setIsSignInForm(true);
+          // Reset form fields
           if (email.current) email.current.value = "";
           if (password.current) password.current.value = "";
           if (name.current) name.current.value = "";
-          console.log(user);
+
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: "https://avatars.githubusercontent.com/u/54769009?v=4",
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                setUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+              console.log(error);
+            });
         })
         .catch((error) => {
           // Handle Errors here.
@@ -48,12 +79,38 @@ const Login = () => {
           const errorMessage = error.message;
           console.log(errorCode);
           console.log(errorMessage);
-          //...
+          setErrorMessage(errorMessage.message);
         });
     } else {
       // Sign in Logic
+      signInWithEmailAndPassword(auth, emailValue, passwordValue)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+
+          navigate("/browse");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorMessage.message);
+          console.log(errorCode);
+          console.log(errorMessage);
+        });
     }
   };
+
+  const resetFormFields = () => {
+    if (email.current) email.current.value = "";
+    if (password.current) password.current.value = "";
+    if (name.current) name.current.value = "";
+    setErrorMessage(null);
+  };
+
+  useEffect(() => {
+    resetFormFields();
+  }, [isSignInForm]);
 
   return (
     <div>
