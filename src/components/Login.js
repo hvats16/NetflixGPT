@@ -53,7 +53,7 @@ const Login = () => {
           if (name.current) name.current.value = "";
 
           updateProfile(user, {
-            displayName: name.current.value,
+            displayName: nameValue,
             photoURL: "https://avatars.githubusercontent.com/u/54769009?v=4",
           })
             .then(() => {
