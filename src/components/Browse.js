@@ -7,12 +7,14 @@ import useTopRatedMovies from "../hooks/useTopRatedMovies";
 import useUpcomingMovies from "../hooks/useUpcomingMovies";
 
 const Browse = () => {
+  // Load all movie data
   useNowPlayingMovies();
   usePopularMovies();
   useTopRatedMovies();
   useUpcomingMovies();
+  
   return (
-    <div>
+    <div className="relative min-h-screen bg-black overflow-x-hidden">
       <Header />
       <MainConatiner />
       <SecondaryConatiner />

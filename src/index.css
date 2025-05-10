@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+
+  /* Netflix-style hover animations */
+  .netflix-card-hover {
+    @apply transition-all duration-300 transform;
+  }
+  
+  .netflix-card-hover:hover {
+    @apply scale-110 z-30;
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+  }
+  
+  /* Row expansion animation */
+  .row-expand-animation {
+    @apply transition-all duration-500;
+  }
+  
+  .row-expand-animation:hover {
+    @apply -mx-4 scale-105 z-20;
+  }
+}
+
+/* Custom animation keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Netflix red color for custom styling */
+:root {
+  --netflix-red: #e50914;
+}

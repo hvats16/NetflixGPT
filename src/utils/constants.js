@@ -12,6 +12,15 @@ export const API_OPTIONS = {
   },
 };
 
+export const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTZhMTFmMWEyNzdmZDlmOWQyMTFmZjExODIwYTNhYiIsIm5iZiI6MTcxOTM2Nzk5MS44MDQ5MzYsInN1YiI6IjY2N2I3ODFjMWVjZjBjZjNmNzcyY2RhNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.La84VkimrEwFcs6a1yCZrCQOpH7aJLIhzf5HIqFHVb4",
+  },
+};
+
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";
 
 export const BG_URL =

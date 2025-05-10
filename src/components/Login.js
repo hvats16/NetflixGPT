@@ -111,54 +111,54 @@ const Login = () => {
   return (
     <div>
       <Header />
-      <div>
+      <div className="relative h-screen w-full">
         <img
-          className="absolute"
+          className="absolute h-full w-full object-cover"
           src={BG_URL}
-          alt="logo"
+          alt="background"
         />
-      </div>
-      <form className="p-12 bg-[rgba(0,0,0,0.8)] absolute w-3/12 my-36 mx-auto right-0 left-0 text-white">
-        <h1 className="font-bold text-3xl py-4">
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </h1>
-        {!isSignInForm && (
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <form className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 sm:p-8 md:p-12 bg-black bg-opacity-80 w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] text-white rounded-md">
+          <h1 className="font-bold text-2xl sm:text-3xl py-4">
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+          {!isSignInForm && (
+            <input
+              ref={name}
+              type="text"
+              placeholder="Full Name"
+              className="p-2 sm:p-3 md:p-4 my-2 sm:my-3 md:my-4 w-full rounded-sm bg-[rgba(22,22,22,0.7)] border border-[rgba(255,255,255,0.5)]"
+            />
+          )}
           <input
-            ref={name}
-            type="text"
-            placeholder="Full Name"
-            className="p-4 my-4 w-full rounded-sm bg-[rgba(22,22,22,0.7)] border border-[rgba(255,255,255,0.5)]"
+            ref={email}
+            type="email"
+            placeholder="Email Address"
+            className="p-2 sm:p-3 md:p-4 my-2 sm:my-3 md:my-4 w-full rounded-sm bg-[rgba(22,22,22,0.7)] border border-[rgba(255,255,255,0.5)]"
           />
-        )}
-        <input
-          ref={email}
-          type="email"
-          placeholder="Email Address"
-          className="p-4 my-4 w-full rounded-sm bg-[rgba(22,22,22,0.7)] border border-[rgba(255,255,255,0.5)]"
-        />
-        <input
-          ref={password}
-          type="password"
-          placeholder="Password"
-          className="p-4 my-4 w-full rounded-sm bg-[rgba(22,22,22,0.7)] border border-[rgba(255,255,255,0.5)]"
-        />
-        <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
-        <button
-          className="p-3 my-3 bg-red-700 w-full rounded-sm font-bold"
-          onClick={submitHandler}
-        >
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </button>
-        <p
-          className="py-4"
-          onClick={toggleSignInForm}
-          style={{ cursor: "pointer" }}
-        >
-          {isSignInForm
-            ? "New to Netflix? Sign Up Now"
-            : "Already on Netflix? Sign In Now"}
-        </p>
-      </form>
+          <input
+            ref={password}
+            type="password"
+            placeholder="Password"
+            className="p-2 sm:p-3 md:p-4 my-2 sm:my-3 md:my-4 w-full rounded-sm bg-[rgba(22,22,22,0.7)] border border-[rgba(255,255,255,0.5)]"
+          />
+          <p className="text-red-500 font-bold text-sm sm:text-base md:text-lg py-2">{errorMessage}</p>
+          <button
+            className="p-2 sm:p-3 my-2 sm:my-3 bg-red-700 w-full rounded-sm font-bold text-sm sm:text-base md:text-lg"
+            onClick={submitHandler}
+          >
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </button>
+          <p
+            className="py-2 sm:py-3 md:py-4 text-sm sm:text-base cursor-pointer"
+            onClick={toggleSignInForm}
+          >
+            {isSignInForm
+              ? "New to Netflix? Sign Up Now"
+              : "Already on Netflix? Sign In Now"}
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
